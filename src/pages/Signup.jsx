@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link,useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate=useNavigate();
   function signup() {
     fetch("http://localhost:5050/signup", {
       method: "POST",
@@ -19,7 +19,17 @@ function Signup() {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then(data => {
+        if(data)
+        {
+          navigate("/");
+          toast.success('Signed in')
+          navigate("/Login")
+        }
+        else{
+          toast.error('Invalid Credentials')
+        }
+      })
       .catch((err)=>console.log(err))
   }
 

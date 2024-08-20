@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {useState} from "react";
 import { toast } from "sonner";
 function Login() {
+  const navigate=useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isButtonClicked, setIsButtonClicked] = useState(false);
@@ -26,6 +27,8 @@ function Login() {
         .then(data => {
           if(data.token)
           {
+            localStorage.setItem("token",data.token);
+            navigate("/");
             toast.success('Logged in')
           }
           else{

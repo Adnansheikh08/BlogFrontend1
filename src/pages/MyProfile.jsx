@@ -1,9 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsPersonCircle, BsX } from "react-icons/bs";
 import PostCard from "../components/PostCard";
 
 const MyProfile = () => {
   const [edit, setEdit] = useState(false);
+  const [userData, setUserData]= useState({})
+  const [name, setName]= useState("")
+  const [posts, setPosts]= useState([])
+  
+  useEffect(() => {
+    fetch("http://localhost:5050/profile", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": "Bearer " + localStorage.getItem("token"),
+      },
+    })
+      .then((res) => res.json())
+      // .then((data) => console.log((data)))
+      .then((data) => setUserData(data.user))
+      .catch((err) => console.log(err));
+  }, []);
+  useEffect(() => {
+    if(!localStorage.getItem("token"))
+    {
+      navigate("/login");
+    }
+    fetch("http://localhost:5050/my-posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": "Bearer " + localStorage.getItem("token"),
+        },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setPosts(data)
+      })
+      .catch((err)=>console.log(err));
+  }, []);
+
   return (
     <>
       {edit && (
@@ -32,9 +68,9 @@ const MyProfile = () => {
           <div className="flex justify-center mb-5 mt-6">
             <BsPersonCircle className="text-6xl" />
           </div>
-          <div className="text-center text-2xl font-bold">Mohd Belal Naim</div>
+          <div className="text-center text-2xl font-bold">{userData.name}</div>
           <div className="text-center text-sm text-gray-500">
-            contactbelalnaim@gmail.com
+            {userData.email}
           </div>
           <div className="flex justify-center mt-5">
             <button
@@ -45,19 +81,17 @@ const MyProfile = () => {
             </button>
           </div>
         </div>
-
-        {"abcdefg".split("").map(function (item) {
+        {posts.map(function (item) {
           return (
             <PostCard
-              name={"Mohd Belal Naim"}
-              date={"11-1-2024"}
-              text={"This is a post"}
+              name={item.user.name}
+              date={item.date}
+              text={item.content}
             />
           );
         })}
       </div>
     </>
   );
-};
-
+  };
 export default MyProfile;
