@@ -28,6 +28,7 @@ function Login() {
           if(data.token)
           {
             localStorage.setItem("token",data.token);
+            localStorage.setItem("id",data.uid)
             navigate("/");
             toast.success('Logged in')
           }

@@ -11,10 +11,13 @@ function PostCard(data) {
 
       <div className="font-bold flex items-center justify-between top-0">
         <Link to="/profile">{data.name}</Link>
-        <BsThreeDots
+        {
+          localStorage.getItem("id")==data.id && <BsThreeDots
           className="cursor-pointer"
           onClick={() => setMenu(!menu)}
         />
+        } 
+        
       </div>
       <div className="text-xs text-gray-500">{data.date}</div>
 

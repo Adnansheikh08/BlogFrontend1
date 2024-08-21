@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Postcard from "../components/PostCard";
 import { BsPlusCircle, BsX } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 function Home() {
   const [create, setCreate] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -12,12 +13,7 @@ function Home() {
   // const user = JSON.parse(localStorage.getItem('user'));
  const navigate=useNavigate();
  function upload(){
-  if (isButtonClicked)
-  { 
-    toast.error("Button clicked multiple times");
-   return;
-   } // If the button has already been clicked, do nothing
-setIsButtonClicked(true); 
+  // If the button has already been clicked, do nothing
 fetch("http://localhost:5050/create-blog",{
   method: "POST",
   headers: {
@@ -30,20 +26,17 @@ fetch("http://localhost:5050/create-blog",{
         })
         .then((res) => res.json())
         .then(data => {
-          if(data.token)
+          if(data.success)
           {
-            localStorage.setItem("token",data.token);
-            navigate("/");
-            toast.success('Logged in')
+            setCreate(false)
+            navigate(0);
+           324
           }
           else{
-            toast.error('Invalid Credentials')
+            toast.error(data.error)
           }
         })
         .catch(error => console.error(error))
-        .finally(() => {
-          setIsButtonClicked(false); // Reset the state after the API call is complete
-        });
   }
   useEffect(() => {
     if(!localStorage.getItem("token"))
@@ -56,34 +49,9 @@ fetch("http://localhost:5050/create-blog",{
       .then((res) => res.json())
       .then((data) => {
         setPosts(data)
-        navigate("/");
+        
       });
   }, []);
-  function deleteblog(){
-    fetch("http://localhost:5050/delete-blog",{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "authorization":"Bearer "+localStorage.getItem("token")
-        },
-        body: JSON.stringify({
-          id: id,
-          }),
-          })
-          .then((res) => res.json())
-          .then(data => {
-            if(data.token)
-            {
-              localStorage.setItem("token",data.token);
-              navigate("/");
-              toast.success('Blog deleted')
-              }
-              else{
-                toast.error('Invalid Credentials')
-                }
-                })
-  }
-
   return (
     <>
       {create && (
@@ -131,6 +99,7 @@ fetch("http://localhost:5050/create-blog",{
               name={item.user.name}
               date={item.date}
               text={item.content}
+              id={item.user._id}
             />
           );
         })}
