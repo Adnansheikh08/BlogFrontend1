@@ -6,8 +6,8 @@ function PostCard(data) {
   const [menu, setMenu] = useState(false);
   const [showFullText, setShow] = useState(false)
   return (
-    <div className="border mt-4 p-3 rounded-md relative ">
-      {menu ? <Menu /> : ""}
+    <div className="border mt-4 p-3  rounded-md relative ">
+      {menu ? <Menu id={data.pid} /> : ""}
 
       <div className="font-bold flex items-center justify-between top-0">
         <Link to="/profile">{data.name}</Link>

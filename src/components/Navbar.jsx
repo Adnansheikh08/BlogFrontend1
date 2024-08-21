@@ -10,7 +10,7 @@ function Navbar() {
     toast.success("Logged off")
     navigate('/login')
   }
-  const iid=localStorage.getItem("id")
+  const iid=localStorage.getItem("id") //we need to see this
   return (
     <div className="border p-3 flex justify-between">
      <Link to="/"> <div className="font-bold">BlogApp</div></Link>

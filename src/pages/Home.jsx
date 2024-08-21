@@ -30,7 +30,6 @@ fetch("http://localhost:5050/create-blog",{
           {
             setCreate(false)
             navigate(0);
-           324
           }
           else{
             toast.error(data.error)
@@ -55,7 +54,7 @@ fetch("http://localhost:5050/create-blog",{
   return (
     <>
       {create && (
-        <div className="fixed inset-0 glass z-50 flex justify-center items-center">
+        <div className="fixed inset-0 glass z-50 flex justify-center items-center ">
           <div className="w-[400px] bg-white shadow-lg rounded-md">
             <div className="font-bold flex justify-between items-center p-3 border-b">
               Create a blog
@@ -100,6 +99,7 @@ fetch("http://localhost:5050/create-blog",{
               date={item.date}
               text={item.content}
               id={item.user._id}
+              pid={item._id}
             />
           );
         })}
