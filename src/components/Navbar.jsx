@@ -13,7 +13,7 @@ function Navbar() {
   const iid=localStorage.getItem("id") //we need to see this
   return (
     <div className="border p-3 flex justify-between">
-     <Link to="/"> <div className="font-bold">BlogApp</div></Link>
+     <Link to="/"> <div className="font-bold">Blogger</div></Link>
       <div className="flex gap-5">
       <Link to="/"> <div className="text-sm">Home</div></Link>
       {

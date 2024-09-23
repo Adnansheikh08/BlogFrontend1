@@ -66,7 +66,7 @@ fetch("http://localhost:5050/create-blog",{
             <div className="p-4">
               <div className="text-sm">
                 Posting as{" "}
-                <span className="font-medium mt-4">Belal </span>
+                <span className="font-medium mt-4">Current User</span>
               </div>
               <textarea
                 value={newPost}
